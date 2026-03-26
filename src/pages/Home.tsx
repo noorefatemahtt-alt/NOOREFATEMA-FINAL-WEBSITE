@@ -1,0 +1,193 @@
+import { useNavigate } from 'react-router-dom';
+import FlightSearch from '../components/FlightSearch';
+import { ChevronRight, Globe, MapPin, Star, Headphones, ShieldCheck, Share2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
+export default function Home() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  return (
+    <div className="pb-20">
+      {/* Hero Section */}
+      <div className="relative h-[600px] md:h-[700px] w-full overflow-hidden flex items-center">
+        <img 
+          src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=2000" 
+          alt="Kaaba Pilgrimage"
+          className="absolute inset-0 w-full h-full object-cover"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent" />
+        
+        <div className="relative max-w-7xl mx-auto px-4 w-full flex flex-col justify-center items-center text-center">
+          <h1 className="text-4xl md:text-7xl font-black text-white mb-6 drop-shadow-2xl tracking-tight leading-tight">
+            {t('hero.title')}
+          </h1>
+          <p className="text-lg md:text-2xl text-white/95 max-w-3xl mx-auto font-medium drop-shadow-lg mb-12 leading-relaxed">
+            {t('hero.subtitle')}
+          </p>
+
+          {/* Search Engine */}
+          <div className="w-full max-w-5xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-md p-2 rounded-3xl shadow-2xl border border-white/20">
+              <FlightSearch compact />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Featured Packages (Hajj & Umrah) */}
+      <section className="max-w-7xl mx-auto px-4 mt-24">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">Featured Packages</h2>
+            <div className="h-1.5 w-24 bg-primary mt-3 rounded-full" />
+            <p className="text-slate-500 mt-4 text-xl">Spiritual journeys crafted with care and devotion</p>
+          </div>
+          <button 
+            onClick={() => navigate('/hajj')}
+            className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-2xl font-black flex items-center transition-all shadow-xl hover:shadow-primary/20"
+          >
+            Explore All <ChevronRight className="h-5 w-5 ml-2" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { 
+              name: 'Premium Hajj Package', 
+              type: 'Hajj', 
+              price: '8,50,000', 
+              img: 'https://images.unsplash.com/photo-1565035010268-a3816f98589a?auto=format&fit=crop&q=80&w=800',
+              features: ['5-Star Hotels', 'VIP Transport', 'Expert Guidance']
+            },
+            { 
+              name: 'Economy Umrah Package', 
+              type: 'Umrah', 
+              price: '1,45,000', 
+              img: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800',
+              features: ['Near Haram Hotels', 'Group Visa', 'Ziyarah Included']
+            },
+            { 
+              name: 'Ramadan Umrah Special', 
+              type: 'Umrah', 
+              price: '2,20,000', 
+              img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80&w=800',
+              features: ['Iftar Included', 'Spiritual Seminars', 'Direct Flights']
+            },
+          ].map((pkg, i) => (
+            <div 
+              key={i} 
+              onClick={() => navigate(pkg.type === 'Hajj' ? '/hajj' : '/umrah')}
+              className="group relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all cursor-pointer bg-white border border-slate-100"
+            >
+              <div className="aspect-[16/10] overflow-hidden">
+                <img 
+                  src={pkg.img} 
+                  alt={pkg.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full uppercase tracking-wider">
+                    {pkg.type}
+                  </span>
+                  <div className="flex items-center text-accent">
+                    <Star className="h-4 w-4 fill-current" />
+                    <span className="ml-1 text-sm font-bold text-slate-700">5.0</span>
+                  </div>
+                </div>
+                <h3 className="text-2xl font-black text-slate-900 mb-2">{pkg.name}</h3>
+                <ul className="space-y-2 mb-6">
+                  {pkg.features.map((f, idx) => (
+                    <li key={idx} className="flex items-center text-slate-500 text-sm">
+                      <ShieldCheck className="h-4 w-4 text-primary mr-2" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                  <div>
+                    <span className="text-xs text-slate-400 block uppercase font-bold">Starts From</span>
+                    <span className="text-xl font-black text-primary">BDT {pkg.price}</span>
+                  </div>
+                  <div className="bg-slate-50 p-3 rounded-2xl group-hover:bg-primary group-hover:text-white transition-colors">
+                    <ChevronRight className="h-6 w-6" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Popular Destinations */}
+      <section className="max-w-7xl mx-auto px-4 mt-24">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-black text-slate-900 tracking-tight">{t('home.popular_destinations')}</h2>
+          <div className="h-1.5 w-24 bg-primary mx-auto mt-3 rounded-full" />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { name: 'Dubai', country: 'UAE', price: '45,000', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=800' },
+            { name: 'Singapore', country: 'Singapore', price: '32,000', img: 'https://images.unsplash.com/photo-1525625232767-12b80424b1c9?auto=format&fit=crop&q=80&w=800' },
+            { name: 'Bangkok', country: 'Thailand', price: '28,000', img: 'https://images.unsplash.com/photo-1508009603885-50cf7c579367?auto=format&fit=crop&q=80&w=800' },
+            { name: 'Istanbul', country: 'Turkey', price: '65,000', img: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&q=80&w=800' },
+          ].map((dest, i) => (
+            <div 
+              key={i} 
+              onClick={() => navigate(`/results?to=${dest.name}`)}
+              className="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all cursor-pointer"
+            >
+              <div className="aspect-[4/5] overflow-hidden">
+                <img 
+                  src={dest.img} 
+                  alt={dest.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <h3 className="text-xl font-black text-white">{dest.name}</h3>
+                <p className="text-white/80 text-sm mb-2">{dest.country}</p>
+                <p className="text-primary font-bold">BDT {dest.price}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="bg-slate-50 py-24 mt-24">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">{t('home.why_book')}</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto text-lg">
+              {t('home.why_subtitle')}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { icon: Globe, title: t('home.global_reach'), desc: t('home.global_desc') },
+              { icon: ShieldCheck, title: t('home.safe_secure'), desc: t('home.safe_secure') },
+              { icon: Headphones, title: t('home.expert_support'), desc: t('home.expert_support') },
+            ].map((item, i) => (
+              <div key={i} className="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all border border-slate-100">
+                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
+                  <item.icon className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-2xl font-black text-slate-900 mb-4">{item.title}</h3>
+                <p className="text-slate-500 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
