@@ -117,15 +117,17 @@ export default function FlightSearch({ initialTab, compact, hideTabs }: FlightSe
     { id: 'Hotels', icon: Hotel, label: t('search.hotels') },
     { id: 'Visa', icon: FileText, label: t('search.visa'), path: '/visa' },
     { id: 'Tours', icon: Map, label: t('search.tours') },
-    { id: 'Explore', icon: Globe, label: t('search.explore') },
-    { id: 'E-Sim', icon: Smartphone, label: t('search.esim') },
   ];
 
   return (
-    <div id="search-section" className={cn(
-      "w-full max-w-6xl mx-auto px-4 relative z-10",
-      compact ? "-mt-4" : "-mt-24"
-    )}>
+    <div 
+      id="search-section" 
+      className={cn(
+        "w-full max-w-6xl mx-auto px-4 relative z-10",
+        compact ? "-mt-4" : "-mt-24"
+      )}
+      style={{ marginTop: '0px', width: '897.215px', height: '487.09px', marginLeft: '0px', paddingLeft: '20px', paddingRight: '6px', marginRight: '0px', marginBottom: '0px', paddingTop: '20px', paddingBottom: '6px' }}
+    >
       {/* Tabs */}
       {!hideTabs && (
         <div className="flex flex-wrap gap-1 mb-0 overflow-x-auto no-scrollbar scroll-smooth">
@@ -155,11 +157,14 @@ export default function FlightSearch({ initialTab, compact, hideTabs }: FlightSe
       )}
 
       {/* Main Search Card */}
-      <div className={cn(
-        "bg-white shadow-2xl",
-        hideTabs ? "rounded-2xl" : "rounded-b-2xl rounded-tr-2xl",
-        compact ? "p-4 sm:p-6" : "p-6 sm:p-8"
-      )}>
+      <div 
+        className={cn(
+          "bg-white shadow-2xl",
+          hideTabs ? "rounded-2xl" : "rounded-b-2xl rounded-tr-2xl",
+          compact ? "p-4 sm:p-6" : "p-6 sm:p-8"
+        )}
+        style={{ marginTop: '0px', paddingTop: '10px', paddingBottom: '10px', paddingRight: '44px', paddingLeft: '37px', height: '284.326px', width: '858.215px' }}
+      >
         {activeTab === 'Flights' && (
           <form onSubmit={handleSearch} className={cn("space-y-6", compact && "space-y-4")}>
             {/* Trip Type & Cabin */}
@@ -309,14 +314,20 @@ export default function FlightSearch({ initialTab, compact, hideTabs }: FlightSe
             )}
 
             {/* Passengers */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+            <div 
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start"
+              style={{ marginBottom: '13px', height: '101.2222px', width: '779.208px' }}
+            >
               <div className="space-y-4">
                 <label className="text-sm font-bold text-slate-700 flex items-center space-x-2">
                   <Users className="h-4 w-4" />
                   <span>{t('search.passengers')}</span>
                 </label>
                 <div className="flex space-x-4">
-                  <div className="flex-1">
+                  <div 
+                    className="flex-1"
+                    style={{ marginTop: '-7px' }}
+                  >
                     <label className="text-[10px] text-slate-400 uppercase font-bold">{t('search.adult')}</label>
                     <select 
                       value={passengers.adults}
@@ -380,12 +391,16 @@ export default function FlightSearch({ initialTab, compact, hideTabs }: FlightSe
             </div>
 
             {/* Search Button */}
-            <div className="flex justify-center pt-4">
+            <div 
+              className="flex justify-center pt-4"
+              style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '0px', paddingTop: '0px', width: '150.979px', marginLeft: '0px', marginTop: '-77px' }}
+            >
               <button
                 type="submit"
-                className="bg-primary hover:bg-secondary text-white px-12 py-4 rounded-xl font-bold text-lg shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center space-x-3"
+                className="bg-primary hover:bg-secondary text-white px-12 py-4 rounded-xl font-bold text-lg shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-3"
+                style={{ height: '41px', width: '244.986px', fontSize: '12px' }}
               >
-                <Search className="h-6 w-6" />
+                <Search className="h-6 w-6" style={{ backgroundColor: '#0f172a' }} />
                 <span>{activeTab === 'Flights' ? t('hero.search_flights') : t('search.search_hotels')}</span>
               </button>
             </div>
@@ -626,7 +641,10 @@ export default function FlightSearch({ initialTab, compact, hideTabs }: FlightSe
       </div>
 
       {/* Trust Badges */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+      <div 
+        className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12"
+        style={{ height: '82.7778px', width: '859.208px', marginTop: '18px' }}
+      >
         <div className="flex items-center space-x-4 bg-white/50 backdrop-blur p-4 rounded-2xl border border-white/20">
           <div className="bg-primary/10 p-3 rounded-full">
             <Headphones className="h-6 w-6 text-primary" />

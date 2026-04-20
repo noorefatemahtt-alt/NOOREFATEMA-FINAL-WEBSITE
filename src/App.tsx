@@ -16,6 +16,7 @@ import Visa from './pages/Visa';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
+import PackageBooking from './pages/PackageBooking';
 import { AuthProvider } from './contexts/AuthContext';
 
 // Helper component to handle scrolling to hash
@@ -65,6 +66,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/package-booking" element={<PackageBooking />} />
             </Routes>
           </main>
           <Footer />

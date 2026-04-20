@@ -14,6 +14,7 @@ import {
   Loader2,
   Clock
 } from 'lucide-react';
+import { scanPassport } from '../lib/passportScanner';
 
 export default function Booking() {
   const { t, i18n } = useTranslation();
@@ -22,6 +23,7 @@ export default function Booking() {
   const navigate = useNavigate();
   const [loading, setLoading] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
+  const [isScanning, setIsScanning] = React.useState(false);
   const [timeLeft, setTimeLeft] = React.useState(1800); // 30 minutes in seconds
 
   const queryParams = new URLSearchParams(location.search);
@@ -58,6 +60,7 @@ export default function Booking() {
     firstName: '',
     lastName: '',
     dob: '',
+    passportNumber: '',
     issueDate: '',
     expiryDate: '',
     passportBase64: '',
@@ -70,12 +73,38 @@ export default function Booking() {
     { id: 'card', name: 'Card', logo: 'https://www.logo.wine/a/logo/Visa_Inc./Visa_Inc.-Logo.wine.svg' }
   ];
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData(prev => ({ ...prev, passportBase64: reader.result as string }));
+      setIsScanning(true);
+      reader.onloadend = async () => {
+        const base64String = reader.result as string;
+        try {
+          const extractedData = await scanPassport(base64String, file.type);
+          
+          if (extractedData) {
+            setFormData(prev => ({ 
+              ...prev, 
+              passportBase64: base64String,
+              firstName: extractedData.firstName || prev.firstName,
+              lastName: extractedData.lastName || prev.lastName,
+              passportNumber: extractedData.passportNumber || prev.passportNumber,
+              dob: extractedData.dob || prev.dob,
+              issueDate: extractedData.issueDate || prev.issueDate,
+              expiryDate: extractedData.expiryDate || prev.expiryDate
+            }));
+            alert(isBn ? 'পাসপোর্ট স্ক্যান সফল হয়েছে এবং তথ্য স্বয়ংক্রিয়ভাবে পূরণ করা হয়েছে।' : 'Passport scanned successfully and information auto-filled.');
+          } else {
+            throw new Error("No data extracted");
+          }
+        } catch (error) {
+          console.error("Scanning failed:", error);
+          setFormData(prev => ({ ...prev, passportBase64: base64String }));
+          alert(isBn ? 'পাসপোর্ট স্ক্যান করতে সমস্যা হয়েছে। দয়া করে ম্যানুয়ালি তথ্য দিন।' : 'Failed to scan passport. Please enter details manually.');
+        } finally {
+          setIsScanning(false);
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -103,6 +132,7 @@ export default function Booking() {
       // WhatsApp Redirection
       const message = `*New Booking Request - Noore Fatema Travels*\n\n` +
         `*Passenger:* ${formData.title} ${formData.firstName} ${formData.lastName}\n` +
+        `*Passport No:* ${formData.passportNumber}\n` +
         `*DOB:* ${formData.dob}\n` +
         `*Passport Issue:* ${formData.issueDate}\n` +
         `*Passport Expiry:* ${formData.expiryDate}\n` +
@@ -309,6 +339,20 @@ export default function Booking() {
             </div>
 
             <div>
+              <label className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 block">{isBn ? 'পাসপোর্ট নম্বর' : 'Passport Number'}</label>
+              <div className="relative">
+                <FileText className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                <input
+                  required
+                  value={formData.passportNumber}
+                  onChange={(e) => setFormData(prev => ({ ...prev, passportNumber: e.target.value }))}
+                  placeholder={isBn ? 'যেমন: A1234567' : 'e.g. A1234567'}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 pl-12 font-semibold outline-none focus:border-primary transition-colors uppercase"
+                />
+              </div>
+            </div>
+
+            <div>
               <label className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 block">{isBn ? 'পাসপোর্ট ইস্যু তারিখ' : 'Passport Issue Date'}</label>
               <div className="relative">
                 <FileText className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
@@ -345,16 +389,25 @@ export default function Booking() {
                   type="file"
                   accept="image/*,application/pdf"
                   onChange={handleFileUpload}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  disabled={isScanning}
+                  className="absolute inset-0 opacity-0 cursor-pointer disabled:cursor-not-allowed"
                 />
                 <div className="flex flex-col items-center">
                   <div className="bg-slate-100 p-4 rounded-full mb-4 group-hover:bg-primary/10 transition-colors">
-                    <Upload className="h-8 w-8 text-slate-400 group-hover:text-primary" />
+                    {isScanning ? (
+                      <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                    ) : (
+                      <Upload className="h-8 w-8 text-slate-400 group-hover:text-primary" />
+                    )}
                   </div>
                   <p className="font-bold text-slate-700">
-                    {formData.passportBase64 ? (isBn ? 'ফাইল নির্বাচন করা হয়েছে' : 'File selected') : (isBn ? 'পাসপোর্ট আপলোড করতে ক্লিক করুন বা ড্র্যাগ করুন' : 'Click or drag to upload passport')}
+                    {isScanning 
+                      ? (isBn ? 'পাসপোর্ট স্ক্যান করা হচ্ছে...' : 'Scanning passport...') 
+                      : formData.passportBase64 
+                        ? (isBn ? 'ফাইল নির্বাচন করা হয়েছে' : 'File selected') 
+                        : (isBn ? 'পাসপোর্ট আপলোড করতে ক্লিক করুন বা ড্র্যাগ করুন' : 'Click or drag to upload passport')}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">{isBn ? 'সর্বোচ্চ ফাইল সাইজ: ৫ এমবি' : 'Max file size: 5MB'}</p>
+                  {!isScanning && <p className="text-xs text-slate-400 mt-1">{isBn ? 'সর্বোচ্চ ফাইল সাইজ: ৫ এমবি (আপলোড করলে তথ্য অটো-ফিলাপ হবে)' : 'Max file size: 5MB (Upload to auto-fill info)'}</p>}
                 </div>
               </div>
             </div>

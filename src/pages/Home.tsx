@@ -1,16 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import FlightSearch from '../components/FlightSearch';
-import { ChevronRight, Globe, MapPin, Star, Headphones, ShieldCheck, Share2 } from 'lucide-react';
+import { ChevronRight, Globe, MapPin, Star, Headphones, ShieldCheck, Share2, Facebook } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isBn = i18n.language === 'bn';
   const navigate = useNavigate();
 
   return (
     <div className="pb-20">
       {/* Hero Section */}
-      <div className="relative h-[600px] md:h-[700px] w-full overflow-hidden flex items-center">
+      <div 
+        className="relative h-[600px] md:h-[700px] w-full overflow-hidden flex items-center"
+        style={{ fontSize: '16px' }}
+      >
         <img 
           src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=2000" 
           alt="Kaaba Pilgrimage"
@@ -19,22 +23,67 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent" />
         
-        <div className="relative max-w-7xl mx-auto px-4 w-full flex flex-col justify-center items-center text-center">
-          <h1 className="text-4xl md:text-7xl font-black text-white mb-6 drop-shadow-2xl tracking-tight leading-tight">
+        <div 
+          className="relative max-w-7xl mx-auto px-4 w-full flex flex-col justify-center items-center text-center"
+          style={{ paddingLeft: '0px', paddingRight: '0px', width: '1000px', height: '600px' }}
+        >
+          <h1 
+            className="text-4xl md:text-7xl font-black text-white mb-6 drop-shadow-2xl tracking-tight leading-tight"
+            style={{ color: '#078707', marginTop: '0px', marginBottom: '0px', width: '800.729px', height: '79px', borderStyle: 'solid' }}
+          >
             {t('hero.title')}
           </h1>
-          <p className="text-lg md:text-2xl text-white/95 max-w-3xl mx-auto font-medium drop-shadow-lg mb-12 leading-relaxed">
+          <p 
+            className="text-lg md:text-2xl text-white/95 max-w-3xl mx-auto font-medium drop-shadow-lg mb-12 leading-relaxed"
+            style={{ marginLeft: '0px', height: '50px', marginTop: '-5px', marginBottom: '5px', fontSize: '19px', width: '777px', marginRight: '0px', lineHeight: '19px', textAlign: 'center', paddingLeft: '0px', paddingTop: '9px', paddingBottom: '9px', color: '#ffffff', borderRadius: '0px', borderWidth: '0px', textDecorationLine: 'none' }}
+          >
             {t('hero.subtitle')}
           </p>
 
           {/* Search Engine */}
-          <div className="w-full max-w-5xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-md p-2 rounded-3xl shadow-2xl border border-white/20">
+          <div 
+            className="w-full max-w-5xl mx-auto"
+            style={{ marginLeft: '0px', marginRight: '0px', paddingLeft: '31px', paddingTop: '15px' }}
+          >
+            <div 
+              className="bg-white/10 backdrop-blur-md p-2 rounded-3xl shadow-2xl border border-white/20"
+              style={{ height: '484px', width: '935px', marginTop: '-15px' }}
+            >
               <FlightSearch compact />
             </div>
           </div>
         </div>
       </div>
+
+      {/* Live Flight Tracking */}
+      <section className="max-w-7xl mx-auto px-4 mt-16">
+        <div className="mb-8">
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight flex items-center">
+            <Globe className="h-8 w-8 text-primary mr-3" />
+            {isBn ? 'লাইভ ফ্লাইট ট্র্যাকিং' : 'Live Flight Tracking'}
+          </h2>
+          <div className="h-1.5 w-24 bg-primary mt-3 rounded-full" />
+          <p className="text-slate-500 mt-4 text-lg">
+            {isBn ? 'বাংলাদেশের আকাশসীমার ফ্লাইটগুলো রিয়েল-টাইমে ট্র্যাক করুন' : 'Track flights in Bangladesh airspace in real-time'}
+          </p>
+        </div>
+        <div className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100 relative group">
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-0">
+            <div className="animate-pulse flex flex-col items-center">
+              <Globe className="h-10 w-10 text-slate-300 mb-2 animate-spin-slow" />
+              <span className="text-slate-400 font-medium">{isBn ? 'রাডার লোড হচ্ছে...' : 'Loading Radar...'}</span>
+            </div>
+          </div>
+          <iframe 
+            src="https://globe.adsbexchange.com/?lat=23.8103&lon=90.4125&zoom=7.2" 
+            width="100%" 
+            height="100%" 
+            frameBorder="0"
+            title="Live Flight Tracker"
+            className="absolute inset-0 z-10"
+          ></iframe>
+        </div>
+      </section>
 
       {/* Featured Packages (Hajj & Umrah) */}
       <section className="max-w-7xl mx-auto px-4 mt-24">
@@ -52,7 +101,7 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { 
               name: 'Premium Hajj Package', 
@@ -62,59 +111,95 @@ export default function Home() {
               features: ['5-Star Hotels', 'VIP Transport', 'Expert Guidance']
             },
             { 
+              name: 'Standard Hajj Package', 
+              type: 'Hajj', 
+              price: '7,20,000', 
+              img: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800',
+              features: ['4-Star Hotels', 'Group Transport', 'Guided Tours']
+            },
+            { 
+              name: 'Economy Hajj Package', 
+              type: 'Hajj', 
+              price: '6,00,000', 
+              img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80&w=800',
+              features: ['Standard Hotels', 'Shared Transport', 'Basic Guidance']
+            },
+            { 
+              name: 'Premium Umrah Package', 
+              type: 'Umrah', 
+              price: '2,20,000', 
+              img: 'https://images.unsplash.com/photo-1565035010268-a3816f98589a?auto=format&fit=crop&q=80&w=800',
+              features: ['5-Star Hotels', 'Direct Flights', 'VIP Ziyarah']
+            },
+            { 
+              name: 'Standard Umrah Package', 
+              type: 'Umrah', 
+              price: '1,80,000', 
+              img: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800',
+              features: ['4-Star Hotels', 'Connecting Flights', 'Group Ziyarah']
+            },
+            { 
               name: 'Economy Umrah Package', 
               type: 'Umrah', 
               price: '1,45,000', 
-              img: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=800',
-              features: ['Near Haram Hotels', 'Group Visa', 'Ziyarah Included']
-            },
-            { 
-              name: 'Ramadan Umrah Special', 
-              type: 'Umrah', 
-              price: '2,20,000', 
               img: 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80&w=800',
-              features: ['Iftar Included', 'Spiritual Seminars', 'Direct Flights']
+              features: ['Near Haram Hotels', 'Group Visa', 'Ziyarah Included']
             },
           ].map((pkg, i) => (
             <div 
               key={i} 
               onClick={() => navigate(pkg.type === 'Hajj' ? '/hajj' : '/umrah')}
-              className="group relative rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all cursor-pointer bg-white border border-slate-100"
+              className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all cursor-pointer bg-white border border-slate-100"
             >
-              <div className="aspect-[16/10] overflow-hidden">
+              <div className="aspect-[16/10] overflow-hidden relative">
                 <img 
                   src={pkg.img} 
                   alt={pkg.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   referrerPolicy="no-referrer"
                 />
+                
+                {/* Share Button */}
+                <button 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const shareUrl = `${window.location.origin}/${pkg.type.toLowerCase()}?package=${i}`;
+                    const fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+                    window.open(fbShareUrl, '_blank', 'width=600,height=400');
+                  }}
+                  className="absolute top-3 left-3 p-2 bg-[#1877F2] text-white rounded-full shadow-md hover:bg-[#1877F2]/90 transition-all z-10"
+                  title="Share on Facebook"
+                >
+                  <Facebook className="h-4 w-4" />
+                </button>
               </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full uppercase tracking-wider">
+              <div className="p-4 sm:p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full uppercase tracking-wider">
                     {pkg.type}
                   </span>
                   <div className="flex items-center text-accent">
-                    <Star className="h-4 w-4 fill-current" />
-                    <span className="ml-1 text-sm font-bold text-slate-700">5.0</span>
+                    <Star className="h-3.5 w-3.5 fill-current" />
+                    <span className="ml-1 text-xs font-bold text-slate-700">5.0</span>
                   </div>
                 </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-2">{pkg.name}</h3>
-                <ul className="space-y-2 mb-6">
+                <h3 className="text-lg sm:text-xl font-black text-slate-900 mb-2">{pkg.name}</h3>
+                <ul className="space-y-1.5 mb-4">
                   {pkg.features.map((f, idx) => (
-                    <li key={idx} className="flex items-center text-slate-500 text-sm">
-                      <ShieldCheck className="h-4 w-4 text-primary mr-2" />
-                      {f}
+                    <li key={idx} className="flex items-center text-slate-500 text-xs sm:text-sm">
+                      <ShieldCheck className="h-3.5 w-3.5 text-primary mr-2 flex-shrink-0" />
+                      <span className="truncate">{f}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100">
                   <div>
-                    <span className="text-xs text-slate-400 block uppercase font-bold">Starts From</span>
-                    <span className="text-xl font-black text-primary">BDT {pkg.price}</span>
+                    <span className="text-[10px] text-slate-400 block uppercase font-bold">Starts From</span>
+                    <span className="text-lg font-black text-primary">BDT {pkg.price}</span>
                   </div>
-                  <div className="bg-slate-50 p-3 rounded-2xl group-hover:bg-primary group-hover:text-white transition-colors">
-                    <ChevronRight className="h-6 w-6" />
+                  <div className="bg-slate-50 p-2.5 rounded-xl group-hover:bg-primary group-hover:text-white transition-colors">
+                    <ChevronRight className="h-5 w-5" />
                   </div>
                 </div>
               </div>
