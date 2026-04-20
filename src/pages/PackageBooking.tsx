@@ -254,8 +254,8 @@ export default function PackageBooking() {
                 </h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="md:col-span-2 flex space-x-4">
-                    <div className="w-1/3">
+                  <div className="md:col-span-2 flex flex-col sm:flex-row gap-4 sm:space-x-4">
+                    <div className="sm:w-1/3">
                       <label className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 block">{isBn ? 'টাইটেল' : 'Title'}</label>
                       <select 
                         value={formData.title}
@@ -267,7 +267,7 @@ export default function PackageBooking() {
                         <option value="Ms">Ms</option>
                       </select>
                     </div>
-                    <div className="w-2/3">
+                    <div className="sm:w-2/3">
                       <label className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 block">{isBn ? 'নামের প্রথমাংশ' : 'First Name'}</label>
                       <input
                         required
@@ -351,7 +351,7 @@ export default function PackageBooking() {
 
                   <div className="md:col-span-2">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">{isBn ? 'পাসপোর্ট আপলোড (ছবি/পিডিএফ)' : 'Passport Upload (Image/PDF)'}</label>
-                    <div className="relative border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:border-primary transition-colors group cursor-pointer">
+                    <div className="relative border-2 border-dashed border-slate-200 rounded-2xl p-6 md:p-8 text-center hover:border-primary transition-colors group cursor-pointer">
                       <input
                         type="file"
                         accept="image/*,application/pdf"

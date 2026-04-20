@@ -11,10 +11,7 @@ export default function Home() {
   return (
     <div className="pb-20">
       {/* Hero Section */}
-      <div 
-        className="relative h-[600px] md:h-[700px] w-full overflow-hidden flex items-center"
-        style={{ fontSize: '16px' }}
-      >
+      <div className="relative min-h-[700px] md:h-[700px] w-full overflow-hidden flex items-center py-24 lg:py-0">
         <img 
           src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=2000" 
           alt="Kaaba Pilgrimage"
@@ -23,67 +20,22 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent" />
         
-        <div 
-          className="relative max-w-7xl mx-auto px-4 w-full flex flex-col justify-center items-center text-center"
-          style={{ paddingLeft: '0px', paddingRight: '0px', width: '1000px', height: '600px' }}
-        >
-          <h1 
-            className="text-4xl md:text-7xl font-black text-white mb-6 drop-shadow-2xl tracking-tight leading-tight"
-            style={{ color: '#078707', marginTop: '0px', marginBottom: '0px', width: '800.729px', height: '79px', borderStyle: 'solid' }}
-          >
+        <div className="relative max-w-7xl mx-auto px-4 w-full flex flex-col justify-center items-center text-center mt-8 lg:mt-0">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black text-white mb-4 md:mb-6 drop-shadow-2xl tracking-tight leading-tight">
             {t('hero.title')}
           </h1>
-          <p 
-            className="text-lg md:text-2xl text-white/95 max-w-3xl mx-auto font-medium drop-shadow-lg mb-12 leading-relaxed"
-            style={{ marginLeft: '0px', height: '50px', marginTop: '-5px', marginBottom: '5px', fontSize: '19px', width: '777px', marginRight: '0px', lineHeight: '19px', textAlign: 'center', paddingLeft: '0px', paddingTop: '9px', paddingBottom: '9px', color: '#ffffff', borderRadius: '0px', borderWidth: '0px', textDecorationLine: 'none' }}
-          >
+          <p className="text-base sm:text-lg md:text-2xl text-white/95 max-w-3xl mx-auto font-medium drop-shadow-lg mb-8 md:mb-12 leading-relaxed px-2">
             {t('hero.subtitle')}
           </p>
 
           {/* Search Engine */}
-          <div 
-            className="w-full max-w-5xl mx-auto"
-            style={{ marginLeft: '0px', marginRight: '0px', paddingLeft: '31px', paddingTop: '15px' }}
-          >
-            <div 
-              className="bg-white/10 backdrop-blur-md p-2 rounded-3xl shadow-2xl border border-white/20"
-              style={{ height: '484px', width: '935px', marginTop: '-15px' }}
-            >
+          <div className="w-full max-w-5xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-md p-2 rounded-3xl shadow-2xl border border-white/20">
               <FlightSearch compact />
             </div>
           </div>
         </div>
       </div>
-
-      {/* Live Flight Tracking */}
-      <section className="max-w-7xl mx-auto px-4 mt-16">
-        <div className="mb-8">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight flex items-center">
-            <Globe className="h-8 w-8 text-primary mr-3" />
-            {isBn ? 'লাইভ ফ্লাইট ট্র্যাকিং' : 'Live Flight Tracking'}
-          </h2>
-          <div className="h-1.5 w-24 bg-primary mt-3 rounded-full" />
-          <p className="text-slate-500 mt-4 text-lg">
-            {isBn ? 'বাংলাদেশের আকাশসীমার ফ্লাইটগুলো রিয়েল-টাইমে ট্র্যাক করুন' : 'Track flights in Bangladesh airspace in real-time'}
-          </p>
-        </div>
-        <div className="w-full h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100 relative group">
-          <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-0">
-            <div className="animate-pulse flex flex-col items-center">
-              <Globe className="h-10 w-10 text-slate-300 mb-2 animate-spin-slow" />
-              <span className="text-slate-400 font-medium">{isBn ? 'রাডার লোড হচ্ছে...' : 'Loading Radar...'}</span>
-            </div>
-          </div>
-          <iframe 
-            src="https://globe.adsbexchange.com/?lat=23.8103&lon=90.4125&zoom=7.2" 
-            width="100%" 
-            height="100%" 
-            frameBorder="0"
-            title="Live Flight Tracker"
-            className="absolute inset-0 z-10"
-          ></iframe>
-        </div>
-      </section>
 
       {/* Featured Packages (Hajj & Umrah) */}
       <section className="max-w-7xl mx-auto px-4 mt-24">
