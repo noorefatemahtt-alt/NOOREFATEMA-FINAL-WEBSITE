@@ -1,0 +1,18 @@
+name: Deploy to cPanel
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install and Build
+        run: |
+          npm install
+          npm run build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: production-files
+          path: dist/
